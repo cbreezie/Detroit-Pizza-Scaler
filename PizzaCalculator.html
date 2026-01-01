@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detroit Pizza Scaler (Melt Style)</title>
+    <style>
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; }
+        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        h1 { border-bottom: 2px solid #e25822; padding-bottom: 10px; color: #e25822; }
+        h2 { margin-top: 30px; color: #444; border-bottom: 1px solid #eee; padding-bottom: 5px; }
+        .calculator { background: #e8f4f8; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #d1e7ef; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; font-weight: bold; margin-bottom: 5px; }
+        input, select { padding: 8px; font-size: 16px; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+        .hidden { display: none; }
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
+        th { background-color: #f8f8f8; font-weight: bold; }
+        .highlight { font-weight: bold; color: #e25822; }
+        .notes { font-size: 0.9em; color: #666; background: #fff8e1; padding: 15px; border-radius: 4px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h1>Caleb's Detroit-Style Pizza Scaler</h1>
+    <p><i>Based on the Melt Pizza Co. inspired recipe (70% Hydration, 40% Poolish).</i></p>
+
+    <div class="calculator">
+        <h2>1. Pan Dimensions</h2>
+        <div class="input-group">
+            <label for="shape">Pan Shape:</label>
+            <select id="shape" onchange="toggleInputs()">
+                <option value="rect">Rectangle / Square</option>
+                <option value="circle">Circle</option>
+            </select>
+        </div>
+
+        <div id="rect-inputs">
+            <div class="input-group">
+                <label for="length">Length (inches):</label>
+                <input type="number" id="length" placeholder="e.g. 10" oninput="calculate()">
+            </div>
+            <div class="input-group">
+                <label for="width">Width (inches):</label>
+                <input type="number" id="width" placeholder="e.g. 8" oninput="calculate()">
+            </div>
+        </div>
+
+        <div id="circle-inputs" class="hidden">
+            <div class="input-group">
+                <label for="diameter">Diameter (inches):</label>
+                <input type="number" id="diameter" placeholder="e.g. 12" oninput="calculate()">
+            </div>
+        </div>
+
+        <div id="result-display" style="margin-top:20px; font-weight:bold;">
+            Reference: 8x10" (80 sq in) <br>
+            Your Area: <span id="your-area">0</span> sq in <br>
+            Scaling Factor: <span id="scale-factor" class="highlight">0.00x</span>
+        </div>
+    </div>
+
+    <h2>2. Ingredients</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Ingredient</th>
+                <th>Phase</th>
+                <th>Amount (Grams)</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Bread Flour</td>
+                <td>Poolish (Night Before)</td>
+                <td><span id="p-flour">132</span>g</td>
+            </tr>
+            <tr>
+                <td>Water</td>
+                <td>Poolish (Night Before)</td>
+                <td><span id="p-water">132</span>g</td>
+            </tr>
+            <tr>
+                <td>Instant Yeast</td>
+                <td>Poolish (Night Before)</td>
+                <td><span id="p-yeast">0.9</span>g</td>
+            </tr>
+            <tr>
+                <td>Bread Flour</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-flour">198</span>g</td>
+            </tr>
+            <tr>
+                <td>Water</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-water">99</span>g</td>
+            </tr>
+            <tr>
+                <td>Salt</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-salt">8.25</span>g</td>
+            </tr>
+            <tr>
+                <td>Sugar</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-sugar">8.25</span>g</td>
+            </tr>
+            <tr>
+                <td>Olive Oil</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-oil">8.25</span>g</td>
+            </tr>
+            <tr>
+                <td>Instant Yeast</td>
+                <td>Final Dough Mix</td>
+                <td><span id="f-yeast">1</span>g</td>
+            </tr>
+            <tr style="background-color: #f0f0f0; font-weight:bold;">
+                <td>TOTAL DOUGH WEIGHT</td>
+                <td></td>
+                <td><span id="total-weight">550</span>g</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="notes">
+        <h3>Instructions</h3>
+        <ol>
+            <li><strong>Poolish:</strong> Mix poolish ingredients, cover, and rest 8-12 hours at room temp.</li>
+            <li><strong>Final Mix:</strong> Combine remaining flour, water, yeast, salt, sugar, and the poolish. Mix. Add oil last.</li>
+            <li><strong>Rest:</strong> Press loosely into oiled pan. Rest 1 hour.</li>
+            <li><strong>Proof:</strong> Press fully into corners. Proof 1-2 hours until puffy.</li>
+            <li><strong>Parbake:</strong> 450&deg;F (232&deg;C) for 6-8 mins (dough only).</li>
+            <li><strong>Final Bake:</strong> Top (cheese to edges) and bake at 500&deg;F (260&deg;C) for 12-15 mins.</li>
+        </ol>
+    </div>
+</div>
+
+<script>
+    // BASE RECIPE VALUES (for 8x10 pan = 80 sq in)
+    const base = {
+        area: 80,
+        p_flour: 132,
+        p_water: 132,
+        p_yeast: 0.9,
+        f_flour: 198,
+        f_water: 99,
+        f_salt: 8.25,
+        f_sugar: 8.25,
+        f_oil: 8.25,
+        f_yeast: 1
+    };
+
+    function toggleInputs() {
+        const shape = document.getElementById('shape').value;
+        if (shape === 'rect') {
+            document.getElementById('rect-inputs').classList.remove('hidden');
+            document.getElementById('circle-inputs').classList.add('hidden');
+        } else {
+            document.getElementById('rect-inputs').classList.add('hidden');
+            document.getElementById('circle-inputs').classList.remove('hidden');
+        }
+        calculate();
+    }
+
+    function calculate() {
+        const shape = document.getElementById('shape').value;
+        let area = 0;
+
+        if (shape === 'rect') {
+            const l = parseFloat(document.getElementById('length').value) || 0;
+            const w = parseFloat(document.getElementById('width').value) || 0;
+            area = l * w;
+        } else {
+            const d = parseFloat(document.getElementById('diameter').value) || 0;
+            const r = d / 2;
+            area = Math.PI * (r * r);
+        }
+
+        // If no valid input, default to base recipe (80 sq in)
+        if (area === 0) area = 80;
+
+        const factor = area / base.area;
+
+        // Update Display
+        document.getElementById('your-area').innerText = area.toFixed(1);
+        document.getElementById('scale-factor').innerText = factor.toFixed(2) + "x";
+
+        // Update Ingredients
+        updateVal('p-flour', base.p_flour, factor);
+        updateVal('p-water', base.p_water, factor);
+        updateVal('p-yeast', base.p_yeast, factor);
+        updateVal('f-flour', base.f_flour, factor);
+        updateVal('f-water', base.f_water, factor);
+        updateVal('f-salt', base.f_salt, factor);
+        updateVal('f-sugar', base.f_sugar, factor);
+        updateVal('f-oil', base.f_oil, factor);
+        updateVal('f-yeast', base.f_yeast, factor);
+
+        // Update Total
+        const total = (base.p_flour + base.p_water + base.p_yeast + 
+                       base.f_flour + base.f_water + base.f_salt + 
+                       base.f_sugar + base.f_oil + base.f_yeast) * factor;
+        document.getElementById('total-weight').innerText = Math.round(total);
+    }
+
+    function updateVal(id, baseVal, factor) {
+        let val = baseVal * factor;
+        // Round logic: larger numbers round to whole, small numbers keep decimals
+        if (val > 10) {
+            document.getElementById(id).innerText = Math.round(val);
+        } else {
+            document.getElementById(id).innerText = val.toFixed(1);
+        }
+    }
+
+    // Init
+    document.getElementById('length').value = 10;
+    document.getElementById('width').value = 8;
+    calculate();
+</script>
+
+</body>
+</html>

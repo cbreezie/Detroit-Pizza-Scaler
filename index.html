@@ -38,7 +38,7 @@
 <body>
 
 <header>
-    <h1>Wideners Recipe Vault</h1>
+    <h1>Wideners Recipe Vault Update 1</h1>
     <button id="back-btn" class="btn-back hidden" onclick="showHome()">← Library</button>
 </header>
 
@@ -74,7 +74,7 @@
                     <div>Total Weight: <span id="grand-total" style="color:#ffca28; font-weight:bold;">0</span>g</div>
                 </div>
                 <table>
-                    <thead><tr><th>Ingredient</th><th>Grams</th><th>Measure</th></tr></thead>
+                    <thead><tr><th>Ingredient</th><th>Grams / Qty</th><th>Measure</th></tr></thead>
                     <tbody id="ingredient-body"></tbody>
                 </table>
             </div>
@@ -89,83 +89,94 @@
 
 <script>
     const densities = {
-        "all purpose flour": 125, "bread flour": 127, "water": 236, "milk": 240, "broth": 236,
-        "sugar": 200, "salt": 6, "yeast": 3, "oil": 218, "butter": 227, "ricotta": 240,
+        "all purpose flour": 125, "bread flour": 127, "water": 236, "milk": 240, "chicken broth": 240,
+        "granulated sugar": 198, "salt": 6, "yeast": 3, "olive oil": 216, "butter": 227, "ricotta cheese": 240,
         "mozzarella": 112, "honey": 340, "garlic powder": 3, "onion powder": 3,
         "italian seasonings": 2, "vanilla extract": 5, "baking soda": 6, "cream of tartar": 3, "baking powder": 4,
-        "vegetable oil": 4
+        "vegetable oil": 192, "powdered sugar": 120 
     };
-    const teaspoonIngredients = ["salt", "yeast", "powder", "soda", "tartar", "vanilla extract", "vegetable oil"];
-<!-- the desity is grams to a cup -->
+    const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder",
+        "onion powder"
+    ];// ingredients measured in teaspoons
+
     const recipes = [
         {
             id: "melt-detroit", type: "pizza", name: "Melt Detroit-Style", desc: "70% Hydration, 40% Poolish airy crust.", baseArea: 80,
             ingredients: [
-                { name: "Bread Flour (Poolish)", val: 132 }, { name: "Water (Poolish)", val: 132, isLiquid: true },
-                { name: "Instant Yeast (Poolish)", val: 1.0 }, { name: "Bread Flour (Final)", val: 198 },
+                { name: "Bread flour (Poolish)", val: 132 }, { name: "Water (Poolish)", val: 132, isLiquid: true },
+                { name: "Instant yeast (Poolish)", val: 1.0 }, { name: "Bread flour (Final)", val: 198 },
                 { name: "Water (Final)", val: 99, isLiquid: true }, { name: "Salt", val: 8.25 },
-                { name: "Sugar", val: 8.25 }, { name: "Olive Oil", val: 8.25, isLiquid: true }, { name: "Instant Yeast (Final)", val: 1.0 }
+                { name: "Granulated sugar", val: 8.25 }, { name: "Olive oil", val: 8.25, isLiquid: true }, { name: "Instant yeast (Final)", val: 1.0 }
             ],
             method: "1. Poolish: Mix the poolish flour, water, and 1g yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Knead until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. Shaping: Dimple dough toward edges. If it shrinks, rest 15m and repeat until it fills corners. Proof 1.5-2 hrs until very puffy.\n5. Bake: Parbake at 450°F for 7 mins. Add cheese to the very edge, then toppings. Bake at 500°F for 12-15 mins."
         },
         {
             id: "avantis-bread", type: "standard", name: "Normal Avanti's Bread", desc: "Sweet and soft white bread.", linkTo: "calzone", linkText: "Use for Calzones",
             ingredients: [
-                { name: "Water", val: 356, isLiquid: true }, { name: "Eggs", val: 100, isEgg: true }, { name: "Oil", val: 20, isLiquid: true },
-                { name: "Salt", val: 9 }, { name: "Bread Flour", val: 680 }, { name: "Sugar", val: 134 }, { name: "Instant Yeast", val: 7 }
+                { name: "Water", val: 354, isLiquid: true }, { name: "Egg", val: 2, isQty: true }, { name: "olive oil", val: 20.25, isLiquid: true },
+                { name: "Salt", val: 9 }, { name: "All purpose flour", val: 625 }, { name: "Granulated sugar", val: 132 }, { name: "Instant yeast", val: 7 }
             ],
             method: "1. Combine water, eggs, oil, salt, flour, sugar, and yeast. Knead for 10 mins (or use bread machine dough cycle).\n2. First Rise: Place in a greased bowl, cover, and let rise in a warm spot until doubled (approx 90 mins).\n3. Shaping: Punch down and divide into loaves. Place in greased loaf pans.\n4. Second Rise: Cover and let rise for 45-60 mins.\n5. Bake: Preheat to 350°F. Bake for 25-30 mins or until the tops are golden brown."
         },
         {
             id: "calzone", type: "standard", name: "Ricotta Calzones", desc: "Filling for Avanti's dough.", linkTo: "avantis-bread", linkText: "View Bread Dough",
             ingredients: [
-                { name: "Ricotta Cheese", val: 454 }, { name: "Mozzarella", val: 224 }, { name: "Egg", val: 50, isEgg: true },
-                { name: "Italian Seasonings", val: 6 }, { name: "Garlic Powder", val: 9 }, { name: "Onion Powder", val: 9 }, { name: "Parmesan", val: 30 }
+                { name: "Ricotta cheese", val: 454 }, { name: "Mozzarella", val: 224 }, { name: "Egg", val: 1, isQty: true },
+                { name: "Italian seasonings", val: 12 }, { name: "Garlic powder", val: 9 }, { name: "Onion powder", val: 9 }
             ],
-            method: "1. Filling: In a bowl, mix ricotta, mozzarella, parmesan, egg, and seasonings until smooth.\n2. Prep: Using a batch of Avanti's dough, roll out circles roughly 8 inches wide.\n3. Assembly: Place 1/2 cup of filling on one side. Fold over and crimp edges tightly with a fork.\n4. Bake: Brush with egg wash if desired. Bake at 375°F for 20-25 mins until golden and crisp."
+            method: "1. Filling: In a bowl, mix ricotta, mozzarella, egg, and seasonings until smooth.\n2. Prep: Using a batch of Avanti's dough, roll out circles roughly 8 inches wide.\n3. Assembly: Place 1/2 cup of filling on one side. Fold over and crimp edges tightly with a fork.\n4. Bake: Brush with egg wash if desired. Bake at 375°F for 20-25 mins until golden and crisp."
         },
         {
             id: "dominos-style", type: "pizza", name: "Dominos Style Hand-Tossed", desc: "Soft dough, buttery garlic crust.", baseArea: 452,
             ingredients: [
-                { name: "Bread Flour", val: 750 }, { name: "Sugar", val: 24 }, { name: "Instant Yeast", val: 13 },
+                { name: "Bread flour", val: 750 }, { name: "granulated sugar", val: 24 }, { name: "Instant yeast", val: 13 },
                 { name: "Salt", val: 18 }, { name: "Water", val: 300, isLiquid: true }, { name: "Milk", val: 245, isLiquid: true },
-                { name: "Olive Oil", val: 40, isLiquid: true }
+                { name: "Olive oil", val: 40, isLiquid: true }
             ],
             method: "1. Mix: Combine dry ingredients. Mix warm water and milk (110°F), then add to dry with oil. Knead 8 mins.\n2. Proof: Let rise in a warm place for 90 mins.\n3. Prep: Divide into 4 balls. Stretch on a floured surface.\n4. Parbake: Bake at 450°F for 4 mins.\n5. Final: Add sauce/toppings. Brush edges with garlic butter. Bake at 450°F for 8-10 mins until bubbly."
         },
         {
             id: "tavern-style", type: "pizza", name: "Chicago Tavern Style", desc: "Thin, crispy 24-hr cold ferment.", baseArea: 226,
             ingredients: [
-                { name: "Bread Flour", val: 450 }, { name: "Butter (Cold bits)", val: 60 }, { name: "Salt", val: 9 },
-                { name: "Instant Yeast", val: 4 }, { name: "Ice Water", val: 180, isLiquid: true }, { name: "Sugar", val: 8 }
+                { name: "Bread flour", val: 450 }, { name: "Butter (Cold bits)", val: 60 }, { name: "Salt", val: 9 },
+                { name: "Instant yeast", val: 4 }, { name: "Water", val: 180, isLiquid: true }, { name: "Granulated sugar", val: 9 }
             ],
             method: "1. Mix: Pulse flour, salt, yeast, and sugar. Cut in cold butter bits until it looks like meal.\n2. Combine: Add ice water and mix until a very stiff dough forms. Knead 2 mins.\n3. Ferment: Place in a container and fridge for 24-48 hours.\n4. Rolling: Roll out paper-thin using a rolling pin. Place on a pizza screen.\n5. Cure: Let the rolled dough sit at room temp for 2 hours to dry out. Bake at 550°F until dark golden and crispy."
         },
         {
             id: "sugar-cookies", type: "standard", name: "Grandma's Sugar Cookies", desc: "Melt-in-your-mouth pressed cookies.",
             ingredients: [
-                { name: "Butter", val: 227 }, { name: "Vegetable Oil", val: 218, isLiquid: true }, { name: "Granulated Sugar", val: 200 },
-                { name: "Powdered Sugar", val: 120 }, { name: "Egg", val: 50, isEgg: true }, { name: "Vanilla Extract", val: 4 },
-                { name: "Salt", val: 6 }, { name: "Baking Soda", val: 6 }, { name: "Cream of Tartar", val: 3 }, { name: "All-Purpose Flour", val: 500 }
+                { name: "Butter", val: 227 }, { name: "Vegetable oil", val: 192, isLiquid: true }, { name: "Granulated sugar", val: 198 },
+                { name: "Powdered sugar", val: 120 }, { name: "Egg", val: 1, isQty: true }, { name: "Vanilla extract", val: 5 },
+                { name: "Salt", val: 6 }, { name: "Baking soda", val: 6 }, { name: "Cream of tartar", val: 3 }, { name: "All purpose flour", val: 500 }
             ],
             method: "1. Creaming: Beat butter, oil, and both sugars until very fluffy. Add egg and vanilla.\n2. Dry: Whisk salt, soda, tartar, and flour. Gradually add to wet mixture.\n3. Shaping: Roll into 1-inch balls. Place on ungreased sheet.\n4. Press: Dip a flat-bottomed glass in sugar and press balls to 1/4 inch thick.\n5. Bake: Bake at 375°F for 8-10 mins. Cool on sheet for 2 mins before moving."
         },
         {
             id: "chicken-dumpling", type: "standard", name: "Chicken & Dumplings", desc: "Southern style broth with hand-rolled dough.",
             ingredients: [
-                { name: "Chicken Broth", val: 1440, isLiquid: true }, { name: "Shredded Chicken", val: 454, isChicken: true }, { name: "All-Purpose Flour", val: 375 },
-                { name: "Baking Powder", val: 12 }, { name: "Salt", val: 7 }, { name: "Shortening", val: 45 }, { name: "Milk", val: 270, isLiquid: true }
+                { name: "Chicken broth", val: 1440, isLiquid: true },{name: "Celery stick", val: 2, isQty: true},{name: "Onion", val: 1/2, isQty: true}, 
+                { name: "Shredded chicken", val: 454, isChicken: true }, { name: "All purpose flour", val: 375 },
+                { name: "Baking powder", val: 12 }, { name: "Salt", val: 6 }, { name: "Milk", val: 270, isLiquid: true }
             ],
             method: "1. Base: Bring broth and chicken to a rolling boil.\n2. Dough: Mix flour, baking powder, and salt. Cut in shortening. Stir in milk to form a ball.\n3. Roll: Heavily flour a surface. Roll dough extremely thin (1/8 inch). Cut into 1-inch strips.\n4. Cook: Drop strips into boiling broth. Reduce heat to low. Cover and simmer 20 mins without stirring."
         },
         {
             id: "Grandmas-pancakes", type: "standard", name: "Grandma's Pancakes", desc: "Fluffy, classic pancakes for any breakfast.",
             ingredients: [
-                {name: "All purpose flour", val: 156.25},{name: "Baking powder", val: 12}, {name: "Sugar", val: 12},
-                {name: "Salt", val: 3},{name: "Egg", val: 50, isEgg: true},{name: "Milk", val: 240, isLiquid: true},
+                {name: "All purpose flour", val: 156.25},{name: "Baking powder", val: 12}, {name: "Granulated sugar", val: 12},
+                {name: "Salt", val: 3},{name: "Egg", val: 1, isQty: true},{name: "Milk", val: 240, isLiquid: true},
                 {name: "Vegetable oil", val: 24, isLiquid: true},{name: "Vanilla extract", val: 5}
             ],
             method: "1. Combine flour, baking powder, sugar, and salt in a bowl.\n2. Beat egg and milk together. Add oil and vanilla extractand mix.\n3. Combine the wet ingredients with the dry ingredients. Be careful not to over mix, it is ok if it is a bit lumpy.\n4. To cook, pour batter onto a buttered hot griddle or pan. Cook until bubbles form, then flip."
+        },
+        {
+            id: "Banana Bread", type: "standard", name: "Classic Banana Bread", desc: "Moms banana bread recipe", ingredients:[
+                {name: "Butter", val: 113}, {name: "Granulated sugar", val: 198},{name: "egg", val: 2, isQty: true},
+                {name: "Ripe banana", val: 3, isQty: true}, {name: "Vanilla extract", val: 5},{name: "All purpose flour", val: 250},
+                {name: "Baking soda", val: 6}, {name: "Salt", val: 3} 
+            ],
+            method: "1. Preheat oven to 350°F (175°C). Grease a 9x5 inch loaf pan.\n2. In a large bowl, cream together the butter, sugar, eggs, and bananas until light and fluffy.\n3. Add the rest of the ingredients(flour, baking soda, salt, vanilla) and mix until incorperated.\n4. Pour batter into the prepared loaf pan. Bake for 55-60 minutes."
         }
     ];
 
@@ -178,137 +189,113 @@
         const whole = Math.floor(num);
         let fraction = num - whole;
         let fStr = "";
-        if (fraction >= 0.875) return (whole + 1).toString();
-        if (fraction >= 0.625) fStr = "¾";
+        
+        // Thirds Logic
+        if (Math.abs(fraction - 0.33) < 0.05 || Math.abs(fraction - 0.333) < 0.05) fStr = "⅓";
+        else if (Math.abs(fraction - 0.66) < 0.05 || Math.abs(fraction - 0.666) < 0.05) fStr = "⅔";
+        
+        // Quarters Logic (fallback)
+        else if (fraction >= 0.875) return (whole + 1).toString();
+        else if (fraction >= 0.625) fStr = "¾";
         else if (fraction >= 0.375) fStr = "½";
         else if (fraction >= 0.125) fStr = "¼";
+        
         return (whole > 0 ? (fStr ? whole + " " : whole) : "") + fStr;
     }
 
-    function getVolumetric(grams, ing) {
-        if (ing.isEgg) return Math.round(grams / 50) + " Egg" + (Math.round(grams/50) > 1 ? "s" : "");
-        if (ing.isChicken) return (grams / 454).toFixed(2) + " lbs";
+    function getVolumetric(scaledValue, ing) {
+        // Handle Quantity-based ingredients
+        if (ing.isQty) {
+            let val = Math.round(scaledValue * 10) / 10;
+            return val + " " + (ing.name || "Item") + (val !== 1 ? "s" : ""); 
+        }
+        
+        // Handle Chicken specific
+        if (ing.isChicken) return (scaledValue / 454).toFixed(2) + " lbs";
 
         let cleanName = ing.name.toLowerCase();
-        let d = 125;
-        //for (let key in densities) { if (cleanName.includes(key)) { d = densities[key]; break; } }
-        
-        //let d = 0;
-        //d=0;
-        //if (densities.includes(cleanName)) {
-        //    d = densities[cleanName];
-        //} else {
-        //    d = 125; // default density
-        //}
+        let d = 125; 
 
         if (cleanName in densities) {
             d = densities[cleanName];
-        } else {
-            d = 125;
         }
 
         // Special case for Avanti's sugar (2/3 cup)
         if (cleanName === "sugar" && currentRecipe.id === "avantis-bread") {
-            let scale = grams / 134; // 134g is the base 2/3 cup
+            let scale = scaledValue / 134; 
             let thirds = (scale * 2);
-            return (thirds/3).toFixed(2).includes(".67") || (thirds/3).toFixed(2).includes(".33") ? formatFraction(thirds/3) + " cup" : formatFraction(thirds/3) + " cup";
+            return formatFraction(thirds/3) + " cup";
         }
-
-        //let totalTsp = (grams / d) * 48; //default cups so multiply by 48 to get total teaspoons
-        //if (["salt", "yeast", "powder", "soda", "tartar", "vanilla", "vegetable oil"].some(k => cleanName.includes(k))) {
-        //    totalTsp = (grams / d);
-        //}
 
         let totalTsp = 0;
         if (teaspoonIngredients.includes(cleanName)) {
-            totalTsp = (grams / d);
+            totalTsp = (scaledValue / d);
         } else {
-            totalTsp = (grams / d) * 48; 
+            totalTsp = (scaledValue / d) * 48; 
         }
 
-        // if (totalTsp >= 12) { 
-        //     let totalCups = totalTsp / 48;
-        //     let wholeCups = Math.floor(totalCups);
-        //     let remTsp = (totalCups - wholeCups) * 48;
-        //     let cupFracValue = (Math.floor(remTsp / 12) * 0.25);
-        //     let cupFracStr = formatFraction(cupFracValue);
-        //     let extraTbsp = Math.round((remTsp % 12) / 3);
-
-        //     let res = [];
-        //     if (wholeCups > 0 || cupFracValue > 0) {
-        //         res.push((wholeCups > 0 ? wholeCups : "") + (cupFracStr ? " " + cupFracStr : "") + " cup");
-        //     }
-        //     if (extraTbsp > 0) res.push(extraTbsp + " tbsp");
-        //     return res.length > 0 ? res.join(" + ") : "0 tsp";
-        // } else if (totalTsp >= 3) {
-        //     let tbsp = Math.floor(totalTsp / 3);
-        //     let tsp = Math.round((totalTsp % 3) * 4) / 4;
-        //     let res = [tbsp + " tbsp"];
-        //     if (tsp > 0) res.push(formatFraction(tsp) + " tsp");
-        //     //res.push("div " + Math.floor(totalTsp / 3));
-        //     return res.join(" + ");
-        // } else {
-        //     return formatFraction(Math.round(totalTsp * 4) / 4) + " tsp";
-        // }
-        // If it is at least 1/4 cup (12 tsp)
-        if (totalTsp >= 12) { 
-            // 1. Get Whole Cups
-            let wholeCups = Math.floor(totalTsp / 48);
-            let remAfterCups = totalTsp % 48;
-
-            // 2. Get Quarter Cups (0, 1/4, 1/2, or 3/4)
-            // 1/4 cup = 12 tsp
-            let quarters = Math.floor(remAfterCups / 12); 
-            let remAfterQuarters = remAfterCups % 12;
-
-            // 3. Get Remaining Tablespoons
-            // Convert the final remainder to tbsp and round to nearest 0.25
-            let remTbsp = remAfterQuarters / 3;
-            let roundedTbsp = Math.round(remTbsp * 4) / 4;
-
-            // Edge Case: If rounding up tbsp pushes us to a full 1/4 cup, bump the quarters
-            if (roundedTbsp === 4) {
-                quarters++;
-                roundedTbsp = 0;
-                if (quarters === 4) {
-                    wholeCups++;
-                    quarters = 0;
+        // --- NEW BUFFER LOGIC ---
+        // Check if current gram weight is close to a standard cup measurement for this ingredient
+        // Standard fractions: 1/4, 1/3, 1/2, 2/3, 3/4, 1
+        const standardFractions = [0.25, 0.333, 0.5, 0.666, 0.75, 1.0];
+        
+        if (!teaspoonIngredients.includes(cleanName)) {
+            for (let frac of standardFractions) {
+                let targetGrams = d * frac;
+                if (Math.abs(scaledValue - targetGrams) <= 2) {
+                    // It's within 2g of a perfect fraction, SNAP TO IT
+                    // Recalculate totalTsp based on the perfect fraction
+                    totalTsp = (targetGrams / d) * 48;
+                    break;
                 }
             }
+        }
 
-            // 4. Build the String
-            let parts = [];
+        // Threshold lowered to 11.5 (just under 1/4 cup) to catch 4 tbsp rounding issues
+        if (totalTsp >= 11.5) { 
+            let totalCups = totalTsp / 48;
+            let wholeCups = Math.floor(totalCups);
+            let remTsp = (totalCups - wholeCups) * 48;
             
-            // Build Cup String
-            let cupStr = "";
-            if (wholeCups > 0) cupStr += wholeCups;
-            if (quarters > 0) {
-                if (wholeCups > 0) cupStr += " "; // space between "1" and "1/2"
-                if (quarters === 1) cupStr += "¼";
-                if (quarters === 2) cupStr += "½";
-                if (quarters === 3) cupStr += "¾";
-            }
-            if (cupStr !== "") parts.push(cupStr + " cup");
-
-            // Build Tbsp String
-            if (roundedTbsp > 0) {
-                parts.push(formatFraction(roundedTbsp) + " tbsp");
+            // Check for Thirds (16 tsp = 1/3 cup, 32 tsp = 2/3 cup) within 1.5 tsp tolerance
+            if (Math.abs(remTsp - 16) < 1.5) {
+                return (wholeCups > 0 ? wholeCups + " " : "") + "⅓ cup";
+            } else if (Math.abs(remTsp - 32) < 1.5) {
+                return (wholeCups > 0 ? wholeCups + " " : "") + "⅔ cup";
             }
 
-            return parts.join(" + ");
+            // Standard Quarters Logic
+            let cupFracValue = (Math.floor(remTsp / 12) * 0.25);
+            let cupFracStr = formatFraction(cupFracValue);
+            let extraTbsp = Math.round((remTsp % 12) / 3);
+            
+            // Fix rounding edge case: if extraTbsp is 4, bump fraction
+            if (extraTbsp === 4) {
+                extraTbsp = 0;
+                cupFracValue += 0.25;
+                if (cupFracValue === 1) {
+                    wholeCups++;
+                    cupFracValue = 0;
+                }
+                cupFracStr = formatFraction(cupFracValue);
+            }
+
+            let res = [];
+            if (wholeCups > 0 || cupFracValue > 0) {
+                res.push((wholeCups > 0 ? wholeCups : "") + (cupFracStr ? " " + cupFracStr : "") + " cup");
+            }
+            if (extraTbsp > 0) res.push(extraTbsp + " tbsp");
+            return res.length > 0 ? res.join(" + ") : "0 tsp";
 
         } else if (totalTsp >= 3) {
-            // Less than 1/4 cup, but more than 1 Tbsp
             let tbsp = Math.floor(totalTsp / 3);
             let tsp = Math.round((totalTsp % 3) * 4) / 4;
             let res = [tbsp + " tbsp"];
             if (tsp > 0) res.push(formatFraction(tsp) + " tsp");
             return res.join(" + ");
         } else {
-            // Small amounts (Teaspoons only)
             return formatFraction(Math.round(totalTsp * 4) / 4) + " tsp";
         }
-    
     }
 
     function init() {
@@ -391,8 +378,14 @@
         currentRecipe.ingredients.forEach(ing => {
             let sW = ing.val * factor;
             if (isFresh && (ing.isLiquid || ing.isChicken)) sW *= 1.05;
-            totalW += sW;
-            tbody.innerHTML += `<tr><td>${ing.name}</td><td><strong>${sW.toFixed(1)}g</strong></td><td>${getVolumetric(sW, ing)}</td></tr>`;
+            
+            // Only add to total weight if it's NOT a quantity-based ingredient (like eggs/bananas)
+            if (!ing.isQty) {
+                totalW += sW;
+            }
+
+            let gramsDisplay = ing.isQty ? (sW.toFixed(1)) : (sW.toFixed(1) + "g");
+            tbody.innerHTML += `<tr><td>${ing.name}</td><td><strong>${gramsDisplay}</strong></td><td>${getVolumetric(sW, ing)}</td></tr>`;
         });
         document.getElementById('grand-total').innerText = Math.round(totalW);
     }

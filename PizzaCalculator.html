@@ -3,224 +3,400 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Detroit Pizza Scaler (Melt Style)</title>
+    <title>Recipe Vault</title>
     <style>
-        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; line-height: 1.6; color: #333; max-width: 800px; margin: 0 auto; padding: 20px; background-color: #f4f4f9; }
-        .container { background: white; padding: 30px; border-radius: 8px; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-        h1 { border-bottom: 2px solid #e25822; padding-bottom: 10px; color: #e25822; }
-        h2 { margin-top: 30px; color: #444; border-bottom: 1px solid #eee; padding-bottom: 5px; }
-        .calculator { background: #e8f4f8; padding: 20px; border-radius: 8px; margin-bottom: 30px; border: 1px solid #d1e7ef; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; font-weight: bold; margin-bottom: 5px; }
-        input, select { padding: 8px; font-size: 16px; width: 100%; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
-        .hidden { display: none; }
-        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
-        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #ddd; }
-        th { background-color: #f8f8f8; font-weight: bold; }
-        .highlight { font-weight: bold; color: #e25822; }
-        .notes { font-size: 0.9em; color: #666; background: #fff8e1; padding: 15px; border-radius: 4px; margin-top: 20px; }
+        :root { --primary: #c62828; --secondary: #2e7d32; --dark: #c62828; --light: #f4f7f6; --accent: #1565c0; --pizza-bg: #e8f4f8; --pizza-border: #d1e7ef; --orange-accent: #e25822; --orange-bg: #fff3e0; }
+        body { font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; color: #333; margin: 0; background-color: var(--light); display: flex; flex-direction: column; min-height: 100vh; }
+        header { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; justify-content: space-between; align-items: center; z-index: 10; }
+        .main-layout { display: flex; flex: 1; position: relative; width: 100%; justify-content: center; }
+        .container { flex: 1; max-width: 900px; padding: 20px; }
+        .recipe-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .recipe-card { background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.1); cursor: pointer; border: 1px solid #ddd; transition: transform 0.2s; }
+        .recipe-card:hover { transform: translateY(-3px); }
+        .recipe-card-content { padding: 20px; }
+        .recipe-card h3 { margin: 0 0 10px 0; color: var(--primary); }
+        .view-hidden { display: none !important; }
+        .btn-back { background: var(--primary); color: white; border: none; padding: 8px 15px; border-radius: 6px; font-weight: bold; cursor: pointer; }
+        .card { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); margin-bottom: 20px; }
+        .pizza-main-box { background: var(--pizza-bg); padding: 25px; border-radius: 10px; border: 1px solid var(--pizza-border); margin-bottom: 20px; }
+        .pan-row { background: var(--orange-bg); border: 1px solid #ffcc80; border-left: 6px solid var(--orange-accent); padding: 20px; border-radius: 8px; margin-top: 15px; display: flex; flex-wrap: wrap; gap: 20px; align-items: center; justify-content: space-between; }
+        .pan-field { display: flex; flex-direction: column; gap: 8px; flex: 1; min-width: 100px; }
+        .pan-field label { font-size: 0.9em; font-weight: bold; color: #5d4037; text-transform: uppercase; letter-spacing: 0.5px; }
+        .pan-field input, .pan-field select { padding: 10px; font-size: 1rem; border: 1px solid #ffb74d; border-radius: 6px; background: #fff; }
+        .stepper-box { background: #fff8e1; padding: 20px; border-radius: 8px; border: 1px solid #ffd54f; margin-bottom: 20px; }
+        .stepper { display: flex; align-items: center; gap: 20px; margin-top: 10px; }
+        .btn-step { background: var(--dark); color: white; border: none; width: 45px; height: 45px; border-radius: 50%; cursor: pointer; display: flex; align-items: center; justify-content: center; font-size: 1.5rem; }
+        .summary-bar { background: var(--dark); color: white; padding: 20px; border-radius: 8px; display: flex; justify-content: space-between; align-items: center; font-size: 1.1em; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+        th, td { text-align: left; padding: 12px; border-bottom: 1px solid #eee; }
+        .method-box { background: white; padding: 25px; border-radius: 12px; border-left: 8px solid var(--secondary); white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .link-btn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-top: 15px; font-weight: bold; }
+        .hidden { display: none !important; }
+        .remove-btn { background: #d32f2f; color: white; border: none; border-radius: 4px; padding: 8px; cursor: pointer; align-self: flex-end; margin-bottom: 2px; }
     </style>
 </head>
 <body>
 
-<div class="container">
-    <h1>Caleb's Detroit-Style Pizza Scaler</h1>
-    <p><i>Based on the Melt Pizza Co. inspired recipe (70% Hydration, 40% Poolish).</i></p>
+<header>
+    <h1>Wideners Recipe Vault</h1>
+    <button id="back-btn" class="btn-back hidden" onclick="showHome()">← Library</button>
+</header>
 
-    <div class="calculator">
-        <h2>1. Pan Dimensions</h2>
-        <div class="input-group">
-            <label for="shape">Pan Shape:</label>
-            <select id="shape" onchange="toggleInputs()">
-                <option value="rect">Rectangle / Square</option>
-                <option value="circle">Circle</option>
-            </select>
+<div class="main-layout">
+    <div class="container">
+        <div id="home-view">
+            <div class="recipe-grid" id="recipe-list"></div>
         </div>
-
-        <div id="rect-inputs">
-            <div class="input-group">
-                <label for="length">Length (inches):</label>
-                <input type="number" id="length" placeholder="e.g. 10" oninput="calculate()">
+        <div id="calc-view" class="view-hidden">
+            <div class="card">
+                <h2 id="recipe-name" style="margin:0; color:var(--primary);"></h2>
+                <p id="recipe-desc" style="color:#666; margin-bottom:15px;"></p>
+                <div id="pizza-controls" class="pizza-main-box hidden">
+                    <div style="margin-bottom: 20px; padding: 12px; background: rgba(255,255,255,0.5); border-radius: 6px; border: 1px dashed var(--accent);">
+                        <input type="checkbox" id="isFreshMilled" onchange="calculate()"> 
+                        <label for="isFreshMilled" style="font-weight:bold; cursor:pointer; color: var(--accent); font-size: 1.1em;">Fresh Milled Flour (+5% Liquids)</label>
+                    </div>
+                    <div id="pan-container"></div>
+                    <div style="text-align: right; margin-top: 20px;">
+                        <button onclick="addPan()" style="background:var(--orange-accent); color:white; border:none; padding:12px 20px; border-radius:6px; font-weight:bold; cursor:pointer;">+ ADD ANOTHER PAN</button>
+                    </div>
+                </div>
+                <div id="standard-controls" class="stepper-box hidden">
+                    <label style="font-weight:bold;">Adjust Batch Size</label>
+                    <div class="stepper">
+                        <button class="btn-step" onclick="changeBatch(-0.5)">−</button>
+                        <span id="batch-val" style="font-size:1.5rem; font-weight:bold; min-width:60px; text-align:center;">1.0</span>
+                        <button class="btn-step" onclick="changeBatch(0.5)">+</button>
+                    </div>
+                </div>
+                <div class="summary-bar">
+                    <div>Scaling Factor: <span id="factor-display" style="color:#ffca28; font-weight:bold;">1.00x</span></div>
+                    <div>Total Weight: <span id="grand-total" style="color:#ffca28; font-weight:bold;">0</span>g</div>
+                </div>
+                <table>
+                    <thead><tr><th>Ingredient</th><th>Grams</th><th>Measure</th></tr></thead>
+                    <tbody id="ingredient-body"></tbody>
+                </table>
             </div>
-            <div class="input-group">
-                <label for="width">Width (inches):</label>
-                <input type="number" id="width" placeholder="e.g. 8" oninput="calculate()">
+            <div class="method-box">
+                <h3 style="margin-top:0;">Instructions</h3>
+                <div id="method-text"></div>
+                <div id="recipe-link-container"></div>
             </div>
         </div>
-
-        <div id="circle-inputs" class="hidden">
-            <div class="input-group">
-                <label for="diameter">Diameter (inches):</label>
-                <input type="number" id="diameter" placeholder="e.g. 12" oninput="calculate()">
-            </div>
-        </div>
-
-        <div id="result-display" style="margin-top:20px; font-weight:bold;">
-            Reference: 8x10" (80 sq in) <br>
-            Your Area: <span id="your-area">0</span> sq in <br>
-            Scaling Factor: <span id="scale-factor" class="highlight">0.00x</span>
-        </div>
-    </div>
-
-    <h2>2. Ingredients</h2>
-    <table>
-        <thead>
-            <tr>
-                <th>Ingredient</th>
-                <th>Phase</th>
-                <th>Amount (Grams)</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr>
-                <td>Bread Flour</td>
-                <td>Poolish (Night Before)</td>
-                <td><span id="p-flour">132</span>g</td>
-            </tr>
-            <tr>
-                <td>Water</td>
-                <td>Poolish (Night Before)</td>
-                <td><span id="p-water">132</span>g</td>
-            </tr>
-            <tr>
-                <td>Instant Yeast</td>
-                <td>Poolish (Night Before)</td>
-                <td><span id="p-yeast">0.9</span>g</td>
-            </tr>
-            <tr>
-                <td>Bread Flour</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-flour">198</span>g</td>
-            </tr>
-            <tr>
-                <td>Water</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-water">99</span>g</td>
-            </tr>
-            <tr>
-                <td>Salt</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-salt">8.25</span>g</td>
-            </tr>
-            <tr>
-                <td>Sugar</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-sugar">8.25</span>g</td>
-            </tr>
-            <tr>
-                <td>Olive Oil</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-oil">8.25</span>g</td>
-            </tr>
-            <tr>
-                <td>Instant Yeast</td>
-                <td>Final Dough Mix</td>
-                <td><span id="f-yeast">1</span>g</td>
-            </tr>
-            <tr style="background-color: #f0f0f0; font-weight:bold;">
-                <td>TOTAL DOUGH WEIGHT</td>
-                <td></td>
-                <td><span id="total-weight">550</span>g</td>
-            </tr>
-        </tbody>
-    </table>
-
-    <div class="notes">
-        <h3>Instructions</h3>
-        <ol>
-            <li><strong>Poolish:</strong> Mix poolish ingredients, cover, and rest 8-12 hours at room temp.</li>
-            <li><strong>Final Mix:</strong> Combine remaining flour, water, yeast, salt, sugar, and the poolish. Mix. Add oil last.</li>
-            <li><strong>Rest:</strong> Press loosely into oiled pan. Rest 1 hour.</li>
-            <li><strong>Proof:</strong> Press fully into corners. Proof 1-2 hours until puffy.</li>
-            <li><strong>Parbake:</strong> 450&deg;F (232&deg;C) for 6-8 mins (dough only).</li>
-            <li><strong>Final Bake:</strong> Top (cheese to edges) and bake at 500&deg;F (260&deg;C) for 12-15 mins.</li>
-        </ol>
     </div>
 </div>
 
 <script>
-    // BASE RECIPE VALUES (for 8x10 pan = 80 sq in)
-    const base = {
-        area: 80,
-        p_flour: 132,
-        p_water: 132,
-        p_yeast: 0.9,
-        f_flour: 198,
-        f_water: 99,
-        f_salt: 8.25,
-        f_sugar: 8.25,
-        f_oil: 8.25,
-        f_yeast: 1
+    const densities = {
+        "all purpose flour": 125, "bread flour": 127, "water": 236, "milk": 240, "broth": 236,
+        "sugar": 200, "salt": 6, "yeast": 3, "oil": 218, "butter": 227, "ricotta": 240,
+        "mozzarella": 112, "honey": 340, "garlic powder": 3, "onion powder": 3,
+        "italian seasonings": 2, "vanilla extract": 5, "baking soda": 6, "cream of tartar": 3, "baking powder": 4,
+        "vegetable oil": 4
     };
-
-    function toggleInputs() {
-        const shape = document.getElementById('shape').value;
-        if (shape === 'rect') {
-            document.getElementById('rect-inputs').classList.remove('hidden');
-            document.getElementById('circle-inputs').classList.add('hidden');
-        } else {
-            document.getElementById('rect-inputs').classList.add('hidden');
-            document.getElementById('circle-inputs').classList.remove('hidden');
+    const teaspoonIngredients = ["salt", "yeast", "powder", "soda", "tartar", "vanilla extract", "vegetable oil"];
+<!-- the desity is grams to a cup -->
+    const recipes = [
+        {
+            id: "melt-detroit", type: "pizza", name: "Melt Detroit-Style", desc: "70% Hydration, 40% Poolish airy crust.", baseArea: 80,
+            ingredients: [
+                { name: "Bread Flour (Poolish)", val: 132 }, { name: "Water (Poolish)", val: 132, isLiquid: true },
+                { name: "Instant Yeast (Poolish)", val: 1.0 }, { name: "Bread Flour (Final)", val: 198 },
+                { name: "Water (Final)", val: 99, isLiquid: true }, { name: "Salt", val: 8.25 },
+                { name: "Sugar", val: 8.25 }, { name: "Olive Oil", val: 8.25, isLiquid: true }, { name: "Instant Yeast (Final)", val: 1.0 }
+            ],
+            method: "1. Poolish: Mix the poolish flour, water, and 1g yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Knead until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. Shaping: Dimple dough toward edges. If it shrinks, rest 15m and repeat until it fills corners. Proof 1.5-2 hrs until very puffy.\n5. Bake: Parbake at 450°F for 7 mins. Add cheese to the very edge, then toppings. Bake at 500°F for 12-15 mins."
+        },
+        {
+            id: "avantis-bread", type: "standard", name: "Normal Avanti's Bread", desc: "Sweet and soft white bread.", linkTo: "calzone", linkText: "Use for Calzones",
+            ingredients: [
+                { name: "Water", val: 356, isLiquid: true }, { name: "Eggs", val: 100, isEgg: true }, { name: "Oil", val: 20, isLiquid: true },
+                { name: "Salt", val: 9 }, { name: "Bread Flour", val: 680 }, { name: "Sugar", val: 134 }, { name: "Instant Yeast", val: 7 }
+            ],
+            method: "1. Combine water, eggs, oil, salt, flour, sugar, and yeast. Knead for 10 mins (or use bread machine dough cycle).\n2. First Rise: Place in a greased bowl, cover, and let rise in a warm spot until doubled (approx 90 mins).\n3. Shaping: Punch down and divide into loaves. Place in greased loaf pans.\n4. Second Rise: Cover and let rise for 45-60 mins.\n5. Bake: Preheat to 350°F. Bake for 25-30 mins or until the tops are golden brown."
+        },
+        {
+            id: "calzone", type: "standard", name: "Ricotta Calzones", desc: "Filling for Avanti's dough.", linkTo: "avantis-bread", linkText: "View Bread Dough",
+            ingredients: [
+                { name: "Ricotta Cheese", val: 454 }, { name: "Mozzarella", val: 224 }, { name: "Egg", val: 50, isEgg: true },
+                { name: "Italian Seasonings", val: 6 }, { name: "Garlic Powder", val: 9 }, { name: "Onion Powder", val: 9 }, { name: "Parmesan", val: 30 }
+            ],
+            method: "1. Filling: In a bowl, mix ricotta, mozzarella, parmesan, egg, and seasonings until smooth.\n2. Prep: Using a batch of Avanti's dough, roll out circles roughly 8 inches wide.\n3. Assembly: Place 1/2 cup of filling on one side. Fold over and crimp edges tightly with a fork.\n4. Bake: Brush with egg wash if desired. Bake at 375°F for 20-25 mins until golden and crisp."
+        },
+        {
+            id: "dominos-style", type: "pizza", name: "Dominos Style Hand-Tossed", desc: "Soft dough, buttery garlic crust.", baseArea: 452,
+            ingredients: [
+                { name: "Bread Flour", val: 750 }, { name: "Sugar", val: 24 }, { name: "Instant Yeast", val: 13 },
+                { name: "Salt", val: 18 }, { name: "Water", val: 300, isLiquid: true }, { name: "Milk", val: 245, isLiquid: true },
+                { name: "Olive Oil", val: 40, isLiquid: true }
+            ],
+            method: "1. Mix: Combine dry ingredients. Mix warm water and milk (110°F), then add to dry with oil. Knead 8 mins.\n2. Proof: Let rise in a warm place for 90 mins.\n3. Prep: Divide into 4 balls. Stretch on a floured surface.\n4. Parbake: Bake at 450°F for 4 mins.\n5. Final: Add sauce/toppings. Brush edges with garlic butter. Bake at 450°F for 8-10 mins until bubbly."
+        },
+        {
+            id: "tavern-style", type: "pizza", name: "Chicago Tavern Style", desc: "Thin, crispy 24-hr cold ferment.", baseArea: 226,
+            ingredients: [
+                { name: "Bread Flour", val: 450 }, { name: "Butter (Cold bits)", val: 60 }, { name: "Salt", val: 9 },
+                { name: "Instant Yeast", val: 4 }, { name: "Ice Water", val: 180, isLiquid: true }, { name: "Sugar", val: 8 }
+            ],
+            method: "1. Mix: Pulse flour, salt, yeast, and sugar. Cut in cold butter bits until it looks like meal.\n2. Combine: Add ice water and mix until a very stiff dough forms. Knead 2 mins.\n3. Ferment: Place in a container and fridge for 24-48 hours.\n4. Rolling: Roll out paper-thin using a rolling pin. Place on a pizza screen.\n5. Cure: Let the rolled dough sit at room temp for 2 hours to dry out. Bake at 550°F until dark golden and crispy."
+        },
+        {
+            id: "sugar-cookies", type: "standard", name: "Grandma's Sugar Cookies", desc: "Melt-in-your-mouth pressed cookies.",
+            ingredients: [
+                { name: "Butter", val: 227 }, { name: "Vegetable Oil", val: 218, isLiquid: true }, { name: "Granulated Sugar", val: 200 },
+                { name: "Powdered Sugar", val: 120 }, { name: "Egg", val: 50, isEgg: true }, { name: "Vanilla Extract", val: 4 },
+                { name: "Salt", val: 6 }, { name: "Baking Soda", val: 6 }, { name: "Cream of Tartar", val: 3 }, { name: "All-Purpose Flour", val: 500 }
+            ],
+            method: "1. Creaming: Beat butter, oil, and both sugars until very fluffy. Add egg and vanilla.\n2. Dry: Whisk salt, soda, tartar, and flour. Gradually add to wet mixture.\n3. Shaping: Roll into 1-inch balls. Place on ungreased sheet.\n4. Press: Dip a flat-bottomed glass in sugar and press balls to 1/4 inch thick.\n5. Bake: Bake at 375°F for 8-10 mins. Cool on sheet for 2 mins before moving."
+        },
+        {
+            id: "chicken-dumpling", type: "standard", name: "Chicken & Dumplings", desc: "Southern style broth with hand-rolled dough.",
+            ingredients: [
+                { name: "Chicken Broth", val: 1440, isLiquid: true }, { name: "Shredded Chicken", val: 454, isChicken: true }, { name: "All-Purpose Flour", val: 375 },
+                { name: "Baking Powder", val: 12 }, { name: "Salt", val: 7 }, { name: "Shortening", val: 45 }, { name: "Milk", val: 270, isLiquid: true }
+            ],
+            method: "1. Base: Bring broth and chicken to a rolling boil.\n2. Dough: Mix flour, baking powder, and salt. Cut in shortening. Stir in milk to form a ball.\n3. Roll: Heavily flour a surface. Roll dough extremely thin (1/8 inch). Cut into 1-inch strips.\n4. Cook: Drop strips into boiling broth. Reduce heat to low. Cover and simmer 20 mins without stirring."
+        },
+        {
+            id: "Grandmas-pancakes", type: "standard", name: "Grandma's Pancakes", desc: "Fluffy, classic pancakes for any breakfast.",
+            ingredients: [
+                {name: "All purpose flour", val: 156.25},{name: "Baking powder", val: 12}, {name: "Sugar", val: 12},
+                {name: "Salt", val: 3},{name: "Egg", val: 50, isEgg: true},{name: "Milk", val: 240, isLiquid: true},
+                {name: "Vegetable oil", val: 24, isLiquid: true},{name: "Vanilla extract", val: 5}
+            ],
+            method: "1. Combine flour, baking powder, sugar, and salt in a bowl.\n2. Beat egg and milk together. Add oil and vanilla extractand mix.\n3. Combine the wet ingredients with the dry ingredients. Be careful not to over mix, it is ok if it is a bit lumpy.\n4. To cook, pour batter onto a buttered hot griddle or pan. Cook until bubbles form, then flip."
         }
+    ];
+
+    let currentRecipe = null;
+    let currentBatchScale = 1.0;
+    let pans = [{ id: 1, shape: 'rect', dim1: 10, dim2: 8, qty: 1 }];
+
+    function formatFraction(num) {
+        if (num <= 0) return "";
+        const whole = Math.floor(num);
+        let fraction = num - whole;
+        let fStr = "";
+        if (fraction >= 0.875) return (whole + 1).toString();
+        if (fraction >= 0.625) fStr = "¾";
+        else if (fraction >= 0.375) fStr = "½";
+        else if (fraction >= 0.125) fStr = "¼";
+        return (whole > 0 ? (fStr ? whole + " " : whole) : "") + fStr;
+    }
+
+    function getVolumetric(grams, ing) {
+        if (ing.isEgg) return Math.round(grams / 50) + " Egg" + (Math.round(grams/50) > 1 ? "s" : "");
+        if (ing.isChicken) return (grams / 454).toFixed(2) + " lbs";
+
+        let cleanName = ing.name.toLowerCase();
+        let d = 125;
+        //for (let key in densities) { if (cleanName.includes(key)) { d = densities[key]; break; } }
+        
+        //let d = 0;
+        //d=0;
+        //if (densities.includes(cleanName)) {
+        //    d = densities[cleanName];
+        //} else {
+        //    d = 125; // default density
+        //}
+
+        if (cleanName in densities) {
+            d = densities[cleanName];
+        } else {
+            d = 125;
+        }
+
+        // Special case for Avanti's sugar (2/3 cup)
+        if (cleanName === "sugar" && currentRecipe.id === "avantis-bread") {
+            let scale = grams / 134; // 134g is the base 2/3 cup
+            let thirds = (scale * 2);
+            return (thirds/3).toFixed(2).includes(".67") || (thirds/3).toFixed(2).includes(".33") ? formatFraction(thirds/3) + " cup" : formatFraction(thirds/3) + " cup";
+        }
+
+        //let totalTsp = (grams / d) * 48; //default cups so multiply by 48 to get total teaspoons
+        //if (["salt", "yeast", "powder", "soda", "tartar", "vanilla", "vegetable oil"].some(k => cleanName.includes(k))) {
+        //    totalTsp = (grams / d);
+        //}
+
+        let totalTsp = 0;
+        if (teaspoonIngredients.includes(cleanName)) {
+            totalTsp = (grams / d);
+        } else {
+            totalTsp = (grams / d) * 48; 
+        }
+
+        // if (totalTsp >= 12) { 
+        //     let totalCups = totalTsp / 48;
+        //     let wholeCups = Math.floor(totalCups);
+        //     let remTsp = (totalCups - wholeCups) * 48;
+        //     let cupFracValue = (Math.floor(remTsp / 12) * 0.25);
+        //     let cupFracStr = formatFraction(cupFracValue);
+        //     let extraTbsp = Math.round((remTsp % 12) / 3);
+
+        //     let res = [];
+        //     if (wholeCups > 0 || cupFracValue > 0) {
+        //         res.push((wholeCups > 0 ? wholeCups : "") + (cupFracStr ? " " + cupFracStr : "") + " cup");
+        //     }
+        //     if (extraTbsp > 0) res.push(extraTbsp + " tbsp");
+        //     return res.length > 0 ? res.join(" + ") : "0 tsp";
+        // } else if (totalTsp >= 3) {
+        //     let tbsp = Math.floor(totalTsp / 3);
+        //     let tsp = Math.round((totalTsp % 3) * 4) / 4;
+        //     let res = [tbsp + " tbsp"];
+        //     if (tsp > 0) res.push(formatFraction(tsp) + " tsp");
+        //     //res.push("div " + Math.floor(totalTsp / 3));
+        //     return res.join(" + ");
+        // } else {
+        //     return formatFraction(Math.round(totalTsp * 4) / 4) + " tsp";
+        // }
+        // If it is at least 1/4 cup (12 tsp)
+        if (totalTsp >= 12) { 
+            // 1. Get Whole Cups
+            let wholeCups = Math.floor(totalTsp / 48);
+            let remAfterCups = totalTsp % 48;
+
+            // 2. Get Quarter Cups (0, 1/4, 1/2, or 3/4)
+            // 1/4 cup = 12 tsp
+            let quarters = Math.floor(remAfterCups / 12); 
+            let remAfterQuarters = remAfterCups % 12;
+
+            // 3. Get Remaining Tablespoons
+            // Convert the final remainder to tbsp and round to nearest 0.25
+            let remTbsp = remAfterQuarters / 3;
+            let roundedTbsp = Math.round(remTbsp * 4) / 4;
+
+            // Edge Case: If rounding up tbsp pushes us to a full 1/4 cup, bump the quarters
+            if (roundedTbsp === 4) {
+                quarters++;
+                roundedTbsp = 0;
+                if (quarters === 4) {
+                    wholeCups++;
+                    quarters = 0;
+                }
+            }
+
+            // 4. Build the String
+            let parts = [];
+            
+            // Build Cup String
+            let cupStr = "";
+            if (wholeCups > 0) cupStr += wholeCups;
+            if (quarters > 0) {
+                if (wholeCups > 0) cupStr += " "; // space between "1" and "1/2"
+                if (quarters === 1) cupStr += "¼";
+                if (quarters === 2) cupStr += "½";
+                if (quarters === 3) cupStr += "¾";
+            }
+            if (cupStr !== "") parts.push(cupStr + " cup");
+
+            // Build Tbsp String
+            if (roundedTbsp > 0) {
+                parts.push(formatFraction(roundedTbsp) + " tbsp");
+            }
+
+            return parts.join(" + ");
+
+        } else if (totalTsp >= 3) {
+            // Less than 1/4 cup, but more than 1 Tbsp
+            let tbsp = Math.floor(totalTsp / 3);
+            let tsp = Math.round((totalTsp % 3) * 4) / 4;
+            let res = [tbsp + " tbsp"];
+            if (tsp > 0) res.push(formatFraction(tsp) + " tsp");
+            return res.join(" + ");
+        } else {
+            // Small amounts (Teaspoons only)
+            return formatFraction(Math.round(totalTsp * 4) / 4) + " tsp";
+        }
+    
+    }
+
+    function init() {
+        const list = document.getElementById('recipe-list');
+        list.innerHTML = '';
+        recipes.forEach(r => {
+            const card = document.createElement('div');
+            card.className = 'recipe-card';
+            card.innerHTML = `<div class="recipe-card-content"><h3>${r.name}</h3><p>${r.desc}</p></div>`;
+            card.onclick = () => loadRecipe(r.id);
+            list.appendChild(card);
+        });
+        showHome();
+    }
+
+    function loadRecipe(id) {
+        currentRecipe = recipes.find(r => r.id === id);
+        currentBatchScale = 1.0;
+        document.getElementById('home-view').classList.add('view-hidden');
+        document.getElementById('calc-view').classList.remove('view-hidden');
+        document.getElementById('back-btn').classList.remove('hidden');
+        document.getElementById('recipe-name').innerText = currentRecipe.name;
+        document.getElementById('recipe-desc').innerText = currentRecipe.desc;
+        document.getElementById('method-text').innerText = currentRecipe.method;
+        document.getElementById('batch-val').innerText = currentBatchScale.toFixed(1);
+        document.getElementById('pizza-controls').classList.toggle('hidden', currentRecipe.type !== 'pizza');
+        document.getElementById('standard-controls').classList.toggle('hidden', currentRecipe.type !== 'standard');
+        const linkCont = document.getElementById('recipe-link-container');
+        linkCont.innerHTML = currentRecipe.linkTo ? `<button class="link-btn" onclick="loadRecipe('${currentRecipe.linkTo}')">${currentRecipe.linkText}</button>` : '';
+        renderPans();
+        window.scrollTo(0,0);
+    }
+
+    function showHome() {
+        document.getElementById('home-view').classList.remove('view-hidden');
+        document.getElementById('calc-view').classList.add('view-hidden');
+        document.getElementById('back-btn').classList.add('hidden');
+        window.scrollTo(0,0);
+    }
+
+    function changeBatch(delta) {
+        currentBatchScale = Math.max(0.5, currentBatchScale + delta);
+        document.getElementById('batch-val').innerText = currentBatchScale.toFixed(1);
+        calculate();
+    }
+
+    function addPan() {
+        pans.push({ id: Date.now(), shape: 'rect', dim1: 10, dim2: 8, qty: 1 });
+        renderPans();
+    }
+
+    function renderPans() {
+        const container = document.getElementById('pan-container');
+        container.innerHTML = '';
+        pans.forEach(pan => {
+            const div = document.createElement('div');
+            div.className = 'pan-row';
+            div.innerHTML = `
+                <div class="pan-field"><label>Shape</label><select onchange="const p=pans.find(x=>x.id===${pan.id}); p.shape=this.value; renderPans();"><option value="rect" ${pan.shape === 'rect' ? 'selected' : ''}>Rectangle</option><option value="circle" ${pan.shape === 'circle' ? 'selected' : ''}>Circle</option></select></div>
+                <div class="pan-field"><label>${pan.shape === 'rect' ? 'Length' : 'Diameter'}</label><input type="number" value="${pan.dim1}" oninput="const p=pans.find(x=>x.id===${pan.id}); p.dim1=parseFloat(this.value)||0; calculate();"></div>
+                <div class="pan-field ${pan.shape === 'circle' ? 'hidden' : ''}"><label>Width</label><input type="number" value="${pan.dim2}" oninput="const p=pans.find(x=>x.id===${pan.id}); p.dim2=parseFloat(this.value)||0; calculate();"></div>
+                <div class="pan-field" style="flex:0.5; min-width:60px;"><label>Qty</label><input type="number" value="${pan.qty}" oninput="const p=pans.find(x=>x.id===${pan.id}); p.qty=parseFloat(this.value)||0; calculate();"></div>
+                <button class="remove-btn" onclick="pans=pans.filter(p=>p.id!==${pan.id}); renderPans();">REMOVE</button>
+            `;
+            container.appendChild(div);
+        });
         calculate();
     }
 
     function calculate() {
-        const shape = document.getElementById('shape').value;
-        let area = 0;
-
-        if (shape === 'rect') {
-            const l = parseFloat(document.getElementById('length').value) || 0;
-            const w = parseFloat(document.getElementById('width').value) || 0;
-            area = l * w;
-        } else {
-            const d = parseFloat(document.getElementById('diameter').value) || 0;
-            const r = d / 2;
-            area = Math.PI * (r * r);
-        }
-
-        // If no valid input, default to base recipe (80 sq in)
-        if (area === 0) area = 80;
-
-        const factor = area / base.area;
-
-        // Update Display
-        document.getElementById('your-area').innerText = area.toFixed(1);
-        document.getElementById('scale-factor').innerText = factor.toFixed(2) + "x";
-
-        // Update Ingredients
-        updateVal('p-flour', base.p_flour, factor);
-        updateVal('p-water', base.p_water, factor);
-        updateVal('p-yeast', base.p_yeast, factor);
-        updateVal('f-flour', base.f_flour, factor);
-        updateVal('f-water', base.f_water, factor);
-        updateVal('f-salt', base.f_salt, factor);
-        updateVal('f-sugar', base.f_sugar, factor);
-        updateVal('f-oil', base.f_oil, factor);
-        updateVal('f-yeast', base.f_yeast, factor);
-
-        // Update Total
-        const total = (base.p_flour + base.p_water + base.p_yeast + 
-                       base.f_flour + base.f_water + base.f_salt + 
-                       base.f_sugar + base.f_oil + base.f_yeast) * factor;
-        document.getElementById('total-weight').innerText = Math.round(total);
+        if (!currentRecipe) return;
+        let factor = (currentRecipe.type === 'pizza') ? 
+            (pans.reduce((sum, p) => sum + (p.qty * (p.shape === 'rect' ? p.dim1*p.dim2 : Math.PI*Math.pow(p.dim1/2,2))), 0) / currentRecipe.baseArea) : 
+            currentBatchScale;
+        document.getElementById('factor-display').innerText = factor.toFixed(2) + "x";
+        const isFresh = document.getElementById('isFreshMilled').checked;
+        const tbody = document.getElementById('ingredient-body');
+        tbody.innerHTML = '';
+        let totalW = 0;
+        currentRecipe.ingredients.forEach(ing => {
+            let sW = ing.val * factor;
+            if (isFresh && (ing.isLiquid || ing.isChicken)) sW *= 1.05;
+            totalW += sW;
+            tbody.innerHTML += `<tr><td>${ing.name}</td><td><strong>${sW.toFixed(1)}g</strong></td><td>${getVolumetric(sW, ing)}</td></tr>`;
+        });
+        document.getElementById('grand-total').innerText = Math.round(totalW);
     }
-
-    function updateVal(id, baseVal, factor) {
-        let val = baseVal * factor;
-        // Round logic: larger numbers round to whole, small numbers keep decimals
-        if (val > 10) {
-            document.getElementById(id).innerText = Math.round(val);
-        } else {
-            document.getElementById(id).innerText = val.toFixed(1);
-        }
-    }
-
-    // Init
-    document.getElementById('length').value = 10;
-    document.getElementById('width').value = 8;
-    calculate();
+    window.onload = init;
 </script>
-
 </body>
 </html>

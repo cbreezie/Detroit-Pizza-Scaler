@@ -54,7 +54,7 @@
             method: "1. Mix: Pulse flour, salt, yeast, and sugar. Cut in cold butter bits until it looks like meal.\n2. Combine: Add ice water and mix until a very stiff dough forms. Knead 2 mins.\n3. Ferment: Place in a container and fridge for 24-48 hours.\n4. Rolling: Roll out paper-thin using a rolling pin. Place on a pizza screen.\n5. Cure: Let the rolled dough sit at room temp for 2 hours to dry out. Bake at 550°F until dark golden and crispy."
         },
         {
-            id: "sugar-cookies", type: "standard", category: "Dessert", name: "Grandma's Sugar Cookies", desc: "Melt-in-your-mouth pressed cookies.",
+            id: "sugar-cookies", type: "standard", category: "Dessert", name: "Press Sugar Cookies", desc: "Grandma Grabow's pressed sugar cookies.",
             ingredients: [
                 { name: "Butter", val: 227 }, { name: "Vegetable oil", val: 192, isLiquid: true }, { name: "Granulated sugar", val: 198 },
                 { name: "Powdered sugar", val: 120 }, { name: "Egg", val: 1, isQty: true }, { name: "Vanilla extract", val: 5 },
@@ -72,7 +72,7 @@
             method: "1. Base: Bring broth and chicken to a rolling boil.\n2. Dough: Mix flour, baking powder, and salt. Cut in shortening. Stir in milk to form a ball.\n3. Roll: Heavily flour a surface. Roll dough extremely thin (1/8 inch). Cut into 1-inch strips.\n4. Cook: Drop strips into boiling broth. Reduce heat to low. Cover and simmer 20 mins without stirring."
         },
         {
-            id: "grandmas-pancakes", type: "standard", category: "Breakfast", name: "Grandma's Pancakes", desc: "Fluffy, classic pancakes for any breakfast.",
+            id: "grandmas-pancakes", type: "standard", category: "Breakfast", name: "Pancakes", desc: "Grandma Widener's pancake recipe.",
             ingredients: [
                 {name: "All purpose flour", val: 156.25},{name: "Baking powder", val: 12}, {name: "Granulated sugar", val: 12},
                 {name: "Salt", val: 3},{name: "Egg", val: 1, isQty: true},{name: "Milk", val: 240, isLiquid: true},
@@ -81,7 +81,7 @@
             method: "1. Combine flour, baking powder, sugar, and salt in a bowl.\n2. Beat egg and milk together. Add oil and vanilla extractand mix.\n3. Combine the wet ingredients with the dry ingredients. Be careful not to over mix, it is ok if it is a bit lumpy.\n4. To cook, pour batter onto a buttered hot griddle or pan. Cook until bubbles form, then flip."
         },
         {
-            id: "banana-bread", type: "standard", category: "Breakfast", name: "Classic Banana Bread", desc: "Mom's banana bread recipe", ingredients:[
+            id: "banana-bread", type: "standard", category: "Breakfast", name: "Banana Bread", desc: "Mom's banana bread recipe", ingredients:[
                 {name: "Butter", val: 113}, {name: "Granulated sugar", val: 198},{name: "egg", val: 2, isQty: true},
                 {name: "Ripe banana", val: 3, isQty: true}, {name: "Vanilla extract", val: 5},{name: "All purpose flour", val: 250},
                 {name: "Baking soda", val: 6}, {name: "Salt", val: 3} 

@@ -49,6 +49,21 @@
         .method-box { background: white; padding: 25px; border-radius: 12px; border-left: 8px solid var(--secondary); white-space: pre-wrap; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .link-btn { background: var(--accent); color: white; border: none; padding: 10px 15px; border-radius: 4px; cursor: pointer; margin-top: 15px; font-weight: bold; }
         .remove-btn { background: #d32f2f; color: white; border: none; border-radius: 4px; padding: 8px; cursor: pointer; align-self: flex-end; margin-bottom: 2px; }
+
+        /* Search Bar Styles */
+        .search-container { position: relative; margin-bottom: 20px; width: 100%; max-width: 400px; }
+        #recipe-search { width: 100%; padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 1rem; box-sizing: border-box; }
+        .search-results { 
+            position: absolute; top: 100%; left: 0; right: 0; 
+            background: white; border: 1px solid #ddd; border-top: none; 
+            border-radius: 0 0 8px 8px; z-index: 1000; max-height: 300px; 
+            overflow-y: auto; box-shadow: 0 4px 10px rgba(0,0,0,0.1); 
+        }
+        .search-item { padding: 10px 15px; cursor: pointer; border-bottom: 1px solid #eee; }
+        .search-item:last-child { border-bottom: none; }
+        .search-item:hover { background-color: #f0f0f0; }
+        .search-item .item-name { font-weight: bold; color: var(--primary); display: block; }
+        .search-item .item-cat { font-size: 0.8rem; color: #777; }
     </style>
 </head>
 <body>
@@ -63,6 +78,11 @@
     <div class="container">
         
         <div id="home-view">
+            <div class="search-container">
+                <input type="text" id="recipe-search" placeholder="Search recipes..." oninput="filterRecipes(this.value)">
+                <div id="search-dropdown" class="search-results view-hidden"></div>
+            </div>
+
             <h2 style="border-bottom: 2px solid #ddd; padding-bottom:10px; color: #555;">Categories</h2>
             <div class="grid-container" id="category-list"></div>
         </div>
@@ -111,7 +131,7 @@
         </div>
     </div>
 </div>
-<script type="text/javascript" src = "./recipes.js"></script>
+<script type="text/javascript" src = "./constants.js"></script>
 <script>
 
     let currentRecipe = null;
@@ -137,6 +157,48 @@
 
         showHome();
     }
+
+    // Search Functionality
+    function filterRecipes(query) {
+        const dropdown = document.getElementById('search-dropdown');
+        const searchTerm = query.toLowerCase().trim();
+
+        if (searchTerm.length < 1) {
+            dropdown.classList.add('view-hidden');
+            return;
+        }
+
+        const matches = recipes.filter(r => 
+            r.name.toLowerCase().includes(searchTerm) || 
+            (r.category && r.category.toLowerCase().includes(searchTerm))
+        );
+
+        if (matches.length > 0) {
+            dropdown.innerHTML = matches.map(r => `
+                <div class="search-item" onclick="selectSearchResult('${r.id}', '${r.category}')">
+                    <span class="item-name">${r.name}</span>
+                    <span class="item-cat">${r.category || 'Uncategorized'}</span>
+                </div>
+            `).join('');
+            dropdown.classList.remove('view-hidden');
+        } else {
+            dropdown.innerHTML = '<div class="search-item">No recipes found</div>';
+            dropdown.classList.remove('view-hidden');
+        }
+    }
+
+    function selectSearchResult(recipeId, category) {
+        currentCategory = category;
+        loadRecipe(recipeId);
+        document.getElementById('recipe-search').value = '';
+        document.getElementById('search-dropdown').classList.add('view-hidden');
+    }
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('.search-container')) {
+            document.getElementById('search-dropdown').classList.add('view-hidden');
+        }
+    });
 
     function showHome() {
         document.getElementById('home-view').classList.remove('view-hidden');
@@ -182,8 +244,6 @@
         document.getElementById('method-text').innerText = currentRecipe.method;
         document.getElementById('batch-val').innerText = currentBatchScale.toFixed(1);
         
-        //document.getElementById('pizza-controls').classList.toggle('hidden', currentRecipe.type !== 'pizza');
-        //document.getElementById('standard-controls').classList.toggle('hidden', currentRecipe.type !== 'standard');
         const pizzaControls = document.getElementById('pizza-controls');
         const standardControls = document.getElementById('standard-controls');
 
@@ -194,7 +254,6 @@
             pizzaControls.style.display = 'none';
             standardControls.style.display = '';
         }
-
         
         const linkCont = document.getElementById('recipe-link-container');
         linkCont.innerHTML = currentRecipe.linkTo ? `<button class="link-btn" onclick="loadRecipe('${currentRecipe.linkTo}')">${currentRecipe.linkText}</button>` : '';
@@ -321,7 +380,6 @@
         pans.forEach(pan => {
             const div = document.createElement('div');
             div.className = 'pan-row';
-            // Corrected: Uses 'view-hidden' instead of 'hidden' to properly hide the Width field
             div.innerHTML = `
                 <div class="pan-field"><label>Shape</label><select onchange="const p=pans.find(x=>x.id===${pan.id}); p.shape=this.value; renderPans();"><option value="rect" ${pan.shape === 'rect' ? 'selected' : ''}>Rectangle</option><option value="circle" ${pan.shape === 'circle' ? 'selected' : ''}>Circle</option></select></div>
                 <div class="pan-field"><label>${pan.shape === 'rect' ? 'Length' : 'Diameter'}</label><input type="number" value="${pan.dim1}" oninput="const p=pans.find(x=>x.id===${pan.id}); p.dim1=parseFloat(this.value)||0; calculate();"></div>

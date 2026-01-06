@@ -124,5 +124,15 @@
                 {name: "Sesame oil", val: 20, isLiquid: true}, {name: "Chili garlic sauce", val: 14.375, isLiquid: true},{name: "Olive oil", val: 9}
             ],
             method: "1. In a bowl, mix soy sauce, brown sugar, sesame oil, chili garlic sauce, salt and pepper to create a marinade.\n2. Marinate the chicken for at least 1 hour but ideally overnight.\n3. Heat a skillet over medium-high heat, add the olive oil and cook the chicken for 3-5 minutes until fully cooked.\n4. Remove and cut the chicken into strips and serve with spring roll bowl noodles."
+        },
+        {
+            id: "focaccia", type: "pizza", category: "Breads", name: "Focaccia", desc: "80% Hydration, 50% Poolish airy crust.", baseArea: 106,
+            ingredients: [
+                { name: "Bread flour (Poolish)", val: 175 }, { name: "Water (Poolish)", val: 175, isLiquid: true },
+                { name: "Instant yeast (Poolish)", val: 1.3 }, { name: "Honey", val: 5 }, { name: "Bread flour (Final)", val: 200 },
+                { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt", val: 11 },
+                { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 1.3 }
+            ],
+            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. Shaping: Dimple dough toward edges. If it shrinks, rest 15m and repeat until it fills corners. Proof 1.5-2 hrs until very puffy.\n5. Add toppings if desired and bake at 425°F for (X) mins."
         }
     ];

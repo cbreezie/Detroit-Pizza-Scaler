@@ -136,7 +136,7 @@
                 { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt", val: 11 },
                 { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 1.3 }
             ],
-            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for (X) mins."
+            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for 18-22 minutes."
         },
         {
             id: "beijing chicken", type: "standard", category: "Chicken", name: "Beijing Chicken", desc: "Beijing beef but with chicken", ingredients:[

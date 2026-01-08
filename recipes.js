@@ -5,9 +5,12 @@
         "italian seasonings": 2, "vanilla extract": 5, "baking soda": 6, "cream of tartar": 3, "baking powder": 4,
         "vegetable oil": 192, "powdered sugar": 120, "lemon juice": 240, "rice vinegar": 240, "brown sugar": 208, "fish sauce": 240,
         "lime juice": 240, "soy sauce": 254, "red wine vinegar": 240, "corn syrup": 368, "black pepper": 2.5, "sesame oil" :218,
-        "chili garlic sauce": 230
+        "chili garlic sauce": 230, "chicken powder": 4, "MSG": 5, "5spice powder": 3, "cornstarch": 160, "worcestershire sauce": 272,
+        "tomato sauce": 227
     };
-    const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder", "onion powder", "black pepper"];
+    const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder", "onion powder", "black pepper",
+        "chicken powder", "MSG", "5spice powder"
+    ];
 
     const recipes = [
         {
@@ -129,10 +132,20 @@
             id: "focaccia", type: "pizza", category: "Breads", name: "Focaccia", desc: "80% Hydration, 50% Poolish airy crust.", baseArea: 106,
             ingredients: [
                 { name: "Bread flour (Poolish)", val: 175 }, { name: "Water (Poolish)", val: 175, isLiquid: true },
-                { name: "Instant yeast (Poolish)", val: 1.3 }, { name: "Honey", val: 5 }, { name: "Bread flour (Final)", val: 200 },
+                { name: "Instant yeast (Poolish)", val: 1.3 }, { name: "Honey (Poolish)", val: 5 }, { name: "Bread flour (Final)", val: 200 },
                 { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt", val: 11 },
                 { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 1.3 }
             ],
-            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. Shaping: Dimple dough toward edges. If it shrinks, rest 15m and repeat until it fills corners. Proof 1.5-2 hrs until very puffy.\n5. Add toppings if desired and bake at 425°F for (X) mins."
+            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for (X) mins."
+        },
+        {
+            id: "beijing chicken", type: "standard", category: "Chicken", name: "Beijing Chicken", desc: "Beijing beef but with chicken", ingredients:[
+                {name: "Chicken marinade", isLabel: true}, {name: "Chicken thigh", val: 800, isChicken: true}, {name: "Baking soda", val: 4},{name: "Water", val: 157.3, isLiquid: true},
+                {name: "Chicken powder", val: 8}, {name: "MSG", val: 10}, {name: "5spice powder", val: 3},{name: "Granulated sugar", val: 8.25}, {name: "Salt", val: 12},
+                {name: "Cornstarch", val: 80}, {name: "Sweet and sour sauce", isLabel: true}, {name: "Rice vinegar", val: 30, isLiquid: true},{name: "Granulated sugar", val: 50},
+                {name: "Water", val: 60}, {name: "Worcestershire sauce", val: 11.3, isLiquid: true}, {name: "Tomato sauce", val: 28.375}, {name: "Beijing sauce", isLabel: true},
+
+            ],
+            method: "1. In a bowl, mix soy sauce, brown sugar, sesame oil, chili garlic sauce, salt and pepper to create a marinade.\n2. Marinate the chicken for at least 1 hour but ideally overnight.\n3. Heat a skillet over medium-high heat, add the olive oil and cook the chicken for 3-5 minutes until fully cooked.\n4. Remove and cut the chicken into strips and serve with spring roll bowl noodles."
         }
     ];

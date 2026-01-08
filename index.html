@@ -3,8 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Widener's Recipe Vault</title>
+    <title>Widener Recipe Vault</title>
     <style>
+        .ing-section { 
+            background-color: #f9f9f9; 
+            font-weight: bold; 
+            color: #333; 
+            text-transform: uppercase; 
+            font-size: 0.9em; 
+            letter-spacing: 0.5px;
+}
         :root { --primary: #c62828; --secondary: #2e7d32; --dark: #c62828; --light: #f4f7f6; --accent: #1565c0; --pizza-bg: #e8f4f8; --pizza-border: #d1e7ef; --orange-accent: #e25822; --orange-bg: #fff3e0; }
         body { font-family: -apple-system, system-ui, sans-serif; line-height: 1.5; color: #333; margin: 0; background-color: var(--light); display: flex; flex-direction: column; min-height: 100vh; }
         header { background: var(--dark); color: white; padding: 1rem 2rem; display: flex; align-items: center; gap: 15px; z-index: 10; }
@@ -71,7 +79,7 @@
 <header>
     <div id="nav-container" style="display:flex; gap:10px;">
         </div>
-    <h1>Widener's Recipe Vault</h1>
+    <h1>Widener Recipe Vault</h1>
 </header>
 
 <div class="main-layout">
@@ -402,7 +410,12 @@
         const tbody = document.getElementById('ingredient-body');
         tbody.innerHTML = '';
         let totalW = 0;
+
         currentRecipe.ingredients.forEach(ing => {
+            if (ing.isLabel) {
+            tbody.innerHTML += `<tr class="ing-section"><td colspan="3">${ing.name}</td></tr>`;
+            return;
+            }
             let sW = ing.val * factor;
             if (isFresh && (ing.isLiquid || ing.isChicken)) sW *= 1.05;
             if (!ing.isQty) totalW += sW;

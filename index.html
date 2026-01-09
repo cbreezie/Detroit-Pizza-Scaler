@@ -363,7 +363,7 @@
         } else if (totalTsp >= 3) {
             let tbsp = Math.floor(totalTsp / 3);
             let tsp = Math.round((totalTsp % 3) * 4) / 4;
-            let res = [tbsp + " tbsp"];
+            let res = [tbsp + " Tbsp"];
             if (tsp > 0) res.push(formatFraction(tsp) + " tsp");
             return res.join(" + ");
         } else {

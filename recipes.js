@@ -6,7 +6,7 @@
         "vegetable oil": 192, "powdered sugar": 120, "lemon juice": 240, "rice vinegar": 240, "brown sugar": 208, "fish sauce": 240,
         "lime juice": 240, "soy sauce": 254, "red wine vinegar": 240, "corn syrup": 368, "black pepper": 2.5, "sesame oil" :218,
         "chili garlic sauce": 230, "chicken powder": 4, "MSG": 5, "5spice powder": 3, "cornstarch": 160, "worcestershire sauce": 272,
-        "tomato sauce": 227
+        "tomato sauce": 227, "hoisin sauce": 296, "sweet chili sauce": 280
     };
     const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder", "onion powder", "black pepper",
         "chicken powder", "MSG", "5spice powder"
@@ -49,7 +49,7 @@
             method: "1. Mix: Combine dry ingredients. Mix warm water and milk (110°F), then add to dry with oil. Knead 8 mins.\n2. Proof: Let rise in a warm place for 90 mins.\n3. Prep: Divide into 4 balls. Stretch on a floured surface.\n4. Parbake: Bake at 450°F for 4 mins.\n5. Final: Add sauce/toppings. Brush edges with garlic butter. Bake at 450°F for 8-10 mins until bubbly."
         },
         {
-            id: "tavern-style", type: "pizza", category: "Pizza", name: "Chicago Tavern Style", desc: "Thin, crispy 24-hr cold ferment.", baseArea: 226,
+            id: "tavern-style", type: "pizza", category: "Pizza", name: "Chicago Tavern Style", desc: "Thin, crispy 48-hr cold ferment.", baseArea: 226,
             ingredients: [
                 { name: "Bread flour", val: 450 }, { name: "Butter (Cold bits)", val: 60 }, { name: "Salt", val: 9 },
                 { name: "Instant yeast", val: 4 }, { name: "Water", val: 180, isLiquid: true }, { name: "Granulated sugar", val: 9 }
@@ -134,7 +134,7 @@
                 { name: "Bread flour (Poolish)", val: 175 }, { name: "Water (Poolish)", val: 175, isLiquid: true },
                 { name: "Instant yeast (Poolish)", val: 1.3 }, { name: "Honey (Poolish)", val: 5 }, { name: "Bread flour (Final)", val: 200 },
                 { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt", val: 11 },
-                { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 1.3 }
+                { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 2.6 }
             ],
             method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for 18-22 minutes."
         },
@@ -144,8 +144,9 @@
                 {name: "Chicken powder", val: 8}, {name: "MSG", val: 10}, {name: "5spice powder", val: 3},{name: "Granulated sugar", val: 8.25}, {name: "Salt", val: 12},
                 {name: "Cornstarch", val: 80}, {name: "Sweet and sour sauce", isLabel: true}, {name: "Rice vinegar", val: 30, isLiquid: true},{name: "Granulated sugar", val: 50},
                 {name: "Water", val: 60}, {name: "Worcestershire sauce", val: 11.3, isLiquid: true}, {name: "Tomato sauce", val: 28.375}, {name: "Beijing sauce", isLabel: true},
+                {name: "Hoisin sauce", val: 74}, {name: "Sweet chili sauce", val: 35, isLiquid: true}, {name: "Honey", val: 42.5},{name: "Bell pepper", val: 2, isQty: true}
 
             ],
-            method: "1. In a bowl, mix soy sauce, brown sugar, sesame oil, chili garlic sauce, salt and pepper to create a marinade.\n2. Marinate the chicken for at least 1 hour but ideally overnight.\n3. Heat a skillet over medium-high heat, add the olive oil and cook the chicken for 3-5 minutes until fully cooked.\n4. Remove and cut the chicken into strips and serve with spring roll bowl noodles."
-        }
+            method: "1. Marinate: Combine chicken with baking soda and water. Add the rest of the ingredients for the marinade.\n2. Coat: Toss chicken in cornstarch until fully coated.\n3. Heat oil to 350°F. Fry chicken in batches until golden and cooked through. Drain on paper towels.\n4. Sweet and sour sauce: In a bowl, combine rice vinegar, sugar, water, Worcestershire sauce, and tomato sauce.\n5. Beijing sauce: Add all of the sweet and sour sauce, hoisin sauce, sweet chili sauce, and honey. \n6. In a wok, heat a few tablespoons of oil and add the beijing sauce and thinly sliced bell peppers, cook until the peppers are soft and the sauce has thickened. Add the fried chicken to the wok and toss to coat in the sauce. Serve on rice."
+                   }
     ];

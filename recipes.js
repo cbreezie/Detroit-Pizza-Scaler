@@ -6,10 +6,10 @@
         "vegetable oil": 192, "powdered sugar": 120, "lemon juice": 240, "rice vinegar": 240, "brown sugar": 208, "fish sauce": 240,
         "lime juice": 240, "soy sauce": 254, "red wine vinegar": 240, "corn syrup": 368, "black pepper": 2.5, "sesame oil" :218,
         "chili garlic sauce": 230, "chicken powder": 4, "MSG": 5, "5spice powder": 3, "cornstarch": 160, "worcestershire sauce": 272,
-        "tomato sauce": 227, "hoisin sauce": 296, "sweet chili sauce": 280
+        "tomato sauce": 227, "hoisin sauce": 296, "sweet chili sauce": 280, "blueberries": 148, "ground cinnamon": 2.6,
     };
     const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder", "onion powder", "black pepper",
-        "chicken powder", "MSG", "5spice powder"
+        "chicken powder", "MSG", "5spice powder", "ground cinnamon"
     ];
 
     const recipes = [
@@ -133,10 +133,10 @@
             ingredients: [
                 { name: "Bread flour (Poolish)", val: 175 }, { name: "Water (Poolish)", val: 175, isLiquid: true },
                 { name: "Instant yeast (Poolish)", val: 1.3 }, { name: "Honey (Poolish)", val: 5 }, { name: "Bread flour (Final)", val: 200 },
-                { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt", val: 11 },
-                { name: "Honey", val: 15 }, { name: "Olive oil", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 2.6 }
+                { name: "Water (Final)", val: 130, isLiquid: true }, { name: "Salt (Final)", val: 11 },
+                { name: "Honey (Final)", val: 15 }, { name: "Olive oil (Final)", val: 11, isLiquid: true }, { name: "Instant yeast (Final)", val: 2.6 }
             ],
-            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final flour, water, salt, sugar, and remaining yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a heavily oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for 18-22 minutes."
+            method: "1. Poolish: Mix the poolish flour, water, and yeast. Cover and rest 8-12 hrs at room temp.\n2. Mixing: Combine poolish with final water and mix until all of the poolish has disolved into the water, then add the final flour, salt, honey, and yeast. Mix until combined, then add oil. Mix until smooth.\n3. First Rest: Place dough in a HEAVILY oiled Detroit pan. Cover and rest 1 hr.\n4. After an hour push the dough toward the corners. Proof for another hr.\n5. Add toppings if desired and bake at 425°F for 18-22 minutes."
         },
         {
             id: "beijing chicken", type: "standard", category: "Chicken", name: "Beijing Chicken", desc: "Beijing beef but with chicken", ingredients:[
@@ -148,5 +148,14 @@
 
             ],
             method: "1. Marinate: Combine chicken with baking soda and water. Add the rest of the ingredients for the marinade.\n2. Coat: Toss chicken in cornstarch until fully coated.\n3. Heat oil to 350°F. Fry chicken in batches until golden and cooked through. Drain on paper towels.\n4. Sweet and sour sauce: In a bowl, combine rice vinegar, sugar, water, Worcestershire sauce, and tomato sauce.\n5. Beijing sauce: Add all of the sweet and sour sauce, hoisin sauce, sweet chili sauce, and honey. \n6. In a wok, heat a few tablespoons of oil and add the beijing sauce and thinly sliced bell peppers, cook until the peppers are soft and the sauce has thickened. Add the fried chicken to the wok and toss to coat in the sauce. Serve on rice."
-                   }
-    ];
+        },
+    {
+             id: "blueberry muffins", type: "standard", category: "Breakfast", name: "Blueberry Muffins", desc: "Muffins with a sweet crumb topping.",ingredients: [
+            { name: "Muffin Batter", isLabel: true },{ name: "All purpose flour", val: 187.5 },{ name: "Granulated sugar", val: 148.5 },{ name: "Baking powder", val: 8 },
+            { name: "Salt", val: 3 },{ name: "Vegetable oil", val: 64, isLiquid: true },{ name: "Egg", val: 1, isQty: true },{ name: "Milk", val: 80, isLiquid: true },
+            { name: "Blueberries", val: 148 },{ name: "Crumb Topping", isLabel: true },{ name: "Granulated sugar", val: 99 },{ name: "All purpose flour", val: 41.5 },{ name: "Butter", val: 57 },
+            { name: "Ground cinnamon", val: 4 }
+        ],
+            method: "1. Prep: Preheat oven to 400°F (200°C). Grease 8 muffin cups or use paper liners.\n2. Dry Mix: In a large bowl, whisk together the flour, sugar, baking powder, and salt.\n3. Wet Mix: Pour the vegetable oil into a 1-cup liquid measuring cup. Add the egg(s), then pour in enough milk to reach the 1-cup mark. Whisk until combined.\n4. Combine: Pour the wet mixture into the flour mixture. Mix just until the batter is combined (do not overmix). Gently fold in the blueberries.\n5. Topping: In a small bowl, combine sugar, flour, cubed butter, and cinnamon. Mix with a fork until it looks like crumbly sand.\n6. Bake: Spoon batter into muffin cups, filling them right to the top. Sprinkle generously with crumb topping. Bake for 20-25 minutes."
+    }
+];

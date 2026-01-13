@@ -6,7 +6,8 @@
         "vegetable oil": 192, "powdered sugar": 120, "lemon juice": 240, "rice vinegar": 240, "brown sugar": 208, "fish sauce": 240,
         "lime juice": 240, "soy sauce": 254, "red wine vinegar": 240, "corn syrup": 368, "black pepper": 2.5, "sesame oil" :218,
         "chili garlic sauce": 230, "chicken powder": 4, "MSG": 5, "5spice powder": 3, "cornstarch": 160, "worcestershire sauce": 272,
-        "tomato sauce": 227, "hoisin sauce": 296, "sweet chili sauce": 280, "blueberries": 148, "ground cinnamon": 2.6,
+        "tomato sauce": 227, "hoisin sauce": 296, "sweet chili sauce": 280, "blueberries": 148, "ground cinnamon": 2.6, "cocoa powder": 84,
+        "whole milk": 240
     };
     const teaspoonIngredients = ["salt", "yeast", "baking powder", "baking soda", "cream of tartar", "vanilla extract", "italian seasonings", "garlic powder", "onion powder", "black pepper",
         "chicken powder", "MSG", "5spice powder", "ground cinnamon"
@@ -157,5 +158,15 @@
             { name: "Ground cinnamon", val: 4 }
         ],
             method: "1. Prep: Preheat oven to 400°F (200°C). Grease 8 muffin cups or use paper liners.\n2. Dry Mix: In a large bowl, whisk together the flour, sugar, baking powder, and salt.\n3. Wet Mix: Pour the vegetable oil into a 1-cup liquid measuring cup. Add the egg(s), then pour in enough milk to reach the 1-cup mark. Whisk until combined.\n4. Combine: Pour the wet mixture into the flour mixture. Mix just until the batter is combined (do not overmix). Gently fold in the blueberries.\n5. Topping: In a small bowl, combine sugar, flour, cubed butter, and cinnamon. Mix with a fork until it looks like crumbly sand.\n6. Bake: Spoon batter into muffin cups, filling them right to the top. Sprinkle generously with crumb topping. Bake for 20-25 minutes."
+    },
+    {
+        id: "weissman-choc-cake", type: "standard", category: "Dessert", name: "Joshua Weissman's Chocolate Cake", desc: "The actual 'perfect' recipe using hot milk bloom.", ingredients: [
+            { name: "Dry Ingredients", isLabel: true },{ name: "All purpose flour", val: 300 },{ name: "Cocoa powder", val: 80 },
+            { name: "Baking powder", val: 10 },{ name: "Baking soda", val: 3 },{ name: "Salt", val: 7 },{ name: "Brown sugar", val: 150 },
+            { name: "Granulated sugar", val: 220 },
+            { name: "Wet Ingredients", isLabel: true },{ name: "Vegetable oil", val: 100, isLiquid: true },{ name: "Egg yolk", val: 2, isQty: true },
+            { name: "Whole egg", val: 2, isQty: true },{ name: "Vanilla extract", val: 12 },{ name: "Whole Milk", val: 420, isLiquid: true } // 1.75 cups
+        ],
+        method: "1. Prep: Preheat oven to 350°F (175°C). Grease two 8-inch cake pans and line with parchment.(a single batch makes 2 8in circular pans)\n2. Dry Mix: Sift flour, cocoa powder, baking powder, baking soda, and salt into a large bowl. Add both sugars and whisk until combined.\n3. Emulsify: In a medium bowl, whisk the egg yolks. While whisking constantly, slowly stream in the oil until thick and emulsified. Add the vanilla and whole eggs, whisking until smooth.\n4. Combine: Pour the egg mixture into the dry ingredients and fold until just combined.\n5. Hot Milk: Heat the milk in a saucepan until it just starts to simmer. Slowly whisk the hot milk into the batter until smooth and liquidy.\n6. Bake: Divide batter between pans. Bake for 30-35 minutes or until a toothpick comes out clean. Cool 10 mins in pan, then transfer to a wire rack."
     }
 ];
